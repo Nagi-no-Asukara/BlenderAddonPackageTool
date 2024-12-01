@@ -21,13 +21,16 @@ features include:
 1. Allows you to run and test your add-on in Blender with a single command. Support hot swap
    for code updates. You can see the updates in Blender immediately after saving the code.
 1. A single command to package the add-on into an installable addon package, making it easier for users to install. The
-   packaging tool automatically detects and includes dependencies needed for the add-on within your project. (Not including 3rd party libraries)
-1. Provide utility functions for basic development, like an auto-load utility for automatic class loading and an internationalization (i18n)
+   packaging tool automatically detects and includes dependencies needed for the add-on within your project. (Not
+   including 3rd party libraries)
+1. Provide utility functions for basic development, like an auto-load utility for automatic class loading and an
+   internationalization (i18n)
    tool, to help new developers creating high-quality addons.
 
 You can check out an overview about this framework on YouTube: https://youtu.be/udPBrXJZT1g
 
-The following external library will be installed automatically when you run the framework code, you can also install them
+The following external library will be installed automatically when you run the framework code, you can also install
+them
 manually:
 
 - https://github.com/nutti/fake-bpy-module
@@ -41,6 +44,7 @@ manually:
 - [create.py](create.py): A tool to create add-ons, allowing you to quickly create an add-on based on the `sample_addon`
   template.
 - [release.py](release.py): A packaging tool that packages add-ons into an installable package.
+- [framework.py](framework.py): The core business logic of the framework, which automates the development process.
 - [addons](addons): A directory to store add-ons, with each add-on in its own sub-directory. Use `create.py` to quickly
   create a new add-on.
 - [common](common): A directory to store shared utilities.
@@ -91,6 +95,32 @@ issue, define classes in other files and import them in the `__init__.py` file a
    specify the ID of the native UI component you want to extend using `target_id` and specify whether to append or
    prepend using `expand_mode`.
 
+## Add Optional Configuration File
+
+To avoid having to modify the configuration items in `main.py` every time you update the framework, you can create a
+`config.ini` file in the root directory of your project to store your configuration information. This file will override
+the configuration information in `main.py`.
+
+Here is an example of a `config.ini` file:
+
+```ini
+[blender]
+; path to the blender executable
+exe_path = C:/software/general/Blender/Blender3.5/blender.exe
+; exe_path = C:/software/general/Blender/Blender3.6/blender.exe
+
+[default]
+; name of the addon to be created, tested and released
+addon = sample_addon
+; path to the addon directory, testing addon will be temporarily installed here
+; usually you don't need to configure this since it can be derived from the exe_path
+addon_path = C:/software/general/Blender/Blender3.5/scripts/addons/
+; the path to store released addon zip files. Do not release to your source code directory
+release_dir = C:/path/to/release/dir
+; the path to store addon files used for testing, during testing, the framework will first release the addon to here and copy it to Blender's addon directory. Do not release to your source code directory
+test_release_dir = C:/path/to/test/release/dir
+```
+
 ## Contributions
 
 1. Framework Updates: If you are using this framework in your project and need to migrate to a newer version, you will
@@ -113,7 +143,8 @@ issue, define classes in other files and import them in the `__init__.py` file a
 1. 一条命令创建模版插件，方便进行快速开发
 1. 支持在一个项目中开发多个插件，可以让你在不同的插件之间复用函数功能，它可以自动检测功能模块之间的依赖关系，将相关联的模块打包到zip文件中，而不包含不必要的模块
 1. 在IDE中可以通过一条命令在Blender上运行插件的测试, 支持代码热更新，保存代码后可以立即在Blender中看到变化
-1. 一条命令将插件打包成一个安装包，方便用户安装，打包工具自动检测插件的依赖关系，自动打包插件所需的依赖文件(不包括引用的外部库)
+1. 一条命令将插件打包成一个安装包，方便用户安装，打包工具自动检测插件的依赖关系，自动打包插件所需的依赖文件(
+   不包括引用的外部库)
 1. 提供了常用的插件开发工具，比如自动加载类的auto_load工具，提供国际化翻译的i18n工具，方便新手开发者进行高水平插件开发
 
 欢迎观看我们的中文视频教程：
@@ -128,13 +159,15 @@ issue, define classes in other files and import them in the `__init__.py` file a
 
 ## 基础框架
 
-[main.py](main.py): 可以配置Blender路径，插件安装路径，当前默认插件，打包ignore文件，插件发布路径等
+[main.py](main.py): 可以配置Blender路径，插件安装路径，当前默认插件，插件发布路径等
 
 [test.py](test.py): 测试工具，可以运行插件的测试
 
 [create.py](create.py): 创建插件的工具，可以根据sample_addon模版快速创建一个插件
 
 [release.py](release.py): 打包工具，可以将插件打包成一个安装包
+
+[framework.py](framework.py): 框架的核心业务代码，用于实现开发流程的自动化
 
 [addons](addons): 存放插件的目录，每个插件一个目录，使用create.py可以快速创建一个插件
 
@@ -175,6 +208,31 @@ Blender 版本 >= 2.93
 1. 你可以使用common/types/framework.py中的ExpandableUi类来方便的扩展Blender原生的菜单，面板，饼菜单，标题栏等UI组件,
    只需继承该类并实现draw方法，你可以通过target_id来指定需要扩展的原生UI组件的ID,
    通过expand_mode来指定向前还是向后扩展。
+
+## 添加可选的配置文件
+
+为了避免每次更新框架时需要重新修改main.py中的配置，你可以在项目的根目录下创建一个config.ini文件，用于存放你的配置信息，
+这个文件会覆盖main.py中的配置信息。
+
+以下是一个config.ini文件的示例：
+
+```ini
+[blender]
+; Blender的可执行文件路径
+exe_path = C:/software/general/Blender/Blender3.5/blender.exe
+; exe_path = C:/software/general/Blender/Blender3.6/blender.exe
+
+[default]
+; 创建、测试和发布的目标插件名称
+addon = sample_addon
+; 插件目录路径，测试时插件将被临时安装到这里
+; 通常不需要配置此项，因为框架可以通过exe_path的路径推导出来
+addon_path = C:/software/general/Blender/Blender3.5/scripts/addons/
+; 发布插件zip文件的存放路径。注意不要发布到源码所在的目录中
+release_dir = C:/path/to/release/dir
+; 用于测试时插件文件的临时存放路径，测试是框架首先会发布插件到这里，然后再复制到Blender的插件目录。注意不要发布到源码所在的目录中
+test_release_dir = C:/path/to/test/release/dir
+```
 
 ## 框架在以下方面可进一步完善，欢迎贡献意见和代码
 
