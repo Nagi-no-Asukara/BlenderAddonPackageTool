@@ -32,11 +32,11 @@ from common.io.FileManagerClient import search_files
 
 # The name of current active addon to be created, tested or released
 # 要创建、测试或发布的当前活动插件的名称
-ACTIVE_ADDON = "sample_addon"
+ACTIVE_ADDON = "expression_addon"
 
 # The path of the blender executable. Blender2.93 is the minimum version required
 # Blender可执行文件的路径，Blender2.93是所需的最低版本
-BLENDER_EXE_PATH = "C:/software/general/Blender/Blender3.5/blender.exe"
+BLENDER_EXE_PATH = "K:/Goo Engine V3.6.02/goo-engine-stable/blender.exe"
 
 # The path of the blender addon folder
 # Blender插件文件夹的路径

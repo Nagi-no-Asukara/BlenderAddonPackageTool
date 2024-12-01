@@ -1,0 +1,23 @@
+import bpy
+
+from addons.miuna_addon.config import __addon_name__
+from addons.miuna_addon.operators.AddonOperators import ExampleOperator, ExampleOperatorTwo
+from common.i18n.i18n import i18n
+
+
+class ExampleAddonPanel(bpy.types.Panel):
+    bl_label = "Example Addon Side Bar Panel"
+    bl_idname = "SCENE_PT_sample"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = 'UI'
+    # name of the side panel
+    bl_category = "ExampleAddon"
+
+    def draw(self, context: bpy.types.Context):
+
+        layout = self.layout
+        layout.operator(ExampleOperator.bl_idname)
+        layout.operator(ExampleOperatorTwo.bl_idname)
+    @classmethod
+    def poll(cls, context: bpy.types.Context):
+        return True
